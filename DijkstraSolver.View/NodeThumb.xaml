@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="NodeThumb" x:Name="myNode"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="15" d:DesignWidth="15">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="nodeTemplate">
+            	<ControlTemplate.Resources>
+            		<Storyboard x:Key="nodeSelectedStoryboard">
+            			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ellipse">
+            				<EasingColorKeyFrame KeyTime="0:0:0.4" Value="#FF56BE28">
+            					<EasingColorKeyFrame.EasingFunction>
+            						<CircleEase EasingMode="EaseInOut"/>
+            					</EasingColorKeyFrame.EasingFunction>
+            				</EasingColorKeyFrame>
+            				<EasingColorKeyFrame KeyTime="0:0:1" Value="#FF384E91">
+            					<EasingColorKeyFrame.EasingFunction>
+            						<CircleEase EasingMode="EaseInOut"/>
+            					</EasingColorKeyFrame.EasingFunction>
+            				</EasingColorKeyFrame>
+            			</ColorAnimationUsingKeyFrames>
+            			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ellipse">
+            				<EasingColorKeyFrame KeyTime="0:0:0.4" Value="#FFD8E2B8"/>
+            				<EasingColorKeyFrame KeyTime="0:0:1" Value="#FFC2B4E0"/>
+            			</ColorAnimationUsingKeyFrames>
+            		</Storyboard>
+            	</ControlTemplate.Resources>
+                <Canvas Background="{x:Null}">
+                    <Ellipse x:Name="ellipse" Height="20" Width="20" Stroke="#FF100A21" RenderTransformOrigin="0.483,0.512" StrokeThickness="1">
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Ellipse.MouseEnter" SourceName="ellipse">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard Storyboard="{StaticResource nodeSelectedStoryboard}"></BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                        <Ellipse.Fill>
+                    		<RadialGradientBrush>
+                    			<GradientStop Color="#FFC2B4E0" Offset="0"/>
+                    			<GradientStop Color="#FF384E91" Offset="1"/>
+                    		</RadialGradientBrush>
+                    	</Ellipse.Fill>
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Fill" Value="#FF9FAD4E" />
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <Label IsHitTestVisible="False" Content="{Binding ElementName=myNode,Path=NodeID}" 
+                           Padding="0" Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="9.333" Background="Transparent" FontFamily="Arial" />
+                </Canvas>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Thumb Name="nodeThumb"
+           HorizontalAlignment="Center" VerticalAlignment="Center"
+           Template="{StaticResource nodeTemplate}" AllowDrop="False" Height="15" Width="15" />
+</UserControl>
